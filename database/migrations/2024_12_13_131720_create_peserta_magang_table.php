@@ -15,16 +15,15 @@ class CreatePesertaMagangTable extends Migration
     {
         Schema::create('peserta_magang', function (Blueprint $table) {
             $table->integer('id_peserta')->autoIncrement();
+            $table->foreignId('id')->constrained('users')->onDelete('cascade');
             $table->integer('id_instansi');
             $table->string('nama', 255);
             $table->string('nomor_induk', 50)->unique();
             $table->enum('jenis_kelamin', ['laki laki', 'perempuan']);
             $table->text('alamat')->nullable();
-            $table->string('no_hp', 15);
-            $table->string('email', 255)->unique();
             $table->string('asal_instansi', 255);
             $table->string('jurusan', 255);
-            $table->enum('status', ['diterima', 'ditolak']);
+            $table->enum('status', ['mahasiswa', 'siswa']);
             $table->string('berkas', 255)->nullable(); // Berkas untuk upload file
             $table->timestamps();
             $table->foreign('id_instansi')->references('id_instansi')->on('instansi')->onDelete('cascade');
