@@ -22,6 +22,7 @@ class Penempatan_Magang extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'status',
+        '',
     ];
 
     // Menentukan apakah tabel menggunakan timestamps
