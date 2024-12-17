@@ -13,7 +13,7 @@ class Penempatan_Magang extends Model
     protected $table = 'penempatan_magang';
 
     // Primary key dari tabel
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_penempatan';
 
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [

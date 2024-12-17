@@ -13,7 +13,7 @@ class Bidang extends Model
     protected $table = 'bidang';
 
     // Primary key dari tabel
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_bidang';
 
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [
