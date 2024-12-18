@@ -15,7 +15,6 @@ class CreatePesertaMagangTable extends Migration
     {
         Schema::create('peserta_magang', function (Blueprint $table) {
             $table->integer('id_peserta')->autoIncrement();
-            $table->foreignId('id')->constrained('users')->onDelete('cascade');
             $table->integer('id_instansi');
             $table->string('nama', 255);
             $table->string('nomor_induk', 50)->unique();
