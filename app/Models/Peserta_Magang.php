@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +10,8 @@ class Peserta_Magang extends Model
 
     protected $table = 'peserta_magang';
     protected $primaryKey = 'id_peserta';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'id_instansi',
@@ -26,9 +27,21 @@ class Peserta_Magang extends Model
         'berkas',
     ];
 
+    public function getBerkasUrlAttribute()
+    {
+        $berkasUrl = $this->berkas 
+            ? asset('storage/' . $this->berkas) 
+            : null;
+        
+        
+        return $berkasUrl;
+    }
+
+
     // Relasi ke tabel instansi
     public function instansi()
     {
         return $this->belongsTo(Instansi::class, 'id_instansi');
     }
 }
+

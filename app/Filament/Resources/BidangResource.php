@@ -18,7 +18,13 @@ class BidangResource extends Resource
 {
     protected static ?string $model = Bidang::class;
 
+<<<<<<< HEAD
     protected static ?string $navigationIcon = 'heroicon-o-battery-50';
+=======
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationLabel = 'Bidang';
+    protected static ?string $pluralLabel = 'Bidang ';
+>>>>>>> bc5e205e528a192279776e2e697aa508d7a6cb29
     
 
     public static function form(Form $form): Form
@@ -34,8 +40,8 @@ class BidangResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama_bidang'),
-                Tables\Columns\TextColumn::make('deskripsi'),
+                Tables\Columns\TextColumn::make('nama_bidang')->label('Nama Bidang'),
+                Tables\Columns\TextColumn::make('deskripsi')->label('Deskripsi'),
                 //
             ])
             ->filters([
