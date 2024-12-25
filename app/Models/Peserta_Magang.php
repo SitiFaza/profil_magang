@@ -15,7 +15,7 @@ class Peserta_Magang extends Model
     protected $fillable = [
         'id_instansi',
         'nama',
-        'nim_nisn',
+        'nomor_induk',
         'tanggal_lahir',
         'jenis_kelamin',
         'alamat',

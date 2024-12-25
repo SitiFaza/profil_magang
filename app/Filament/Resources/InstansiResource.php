@@ -25,7 +25,7 @@ class InstansiResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_instansi'),
+                Forms\Components\TextInput::make('nama_instansi')->unique(),
                 Forms\Components\TextInput::make('alamat'),
                 Forms\Components\TextInput::make('email'),
             ]);
@@ -45,6 +45,7 @@ class InstansiResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

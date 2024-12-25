@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BidangResource\Pages;
-use App\Filament\Resources\BidangResource\RelationManagers;
-use App\Models\Bidang;
+use App\Filament\Resources\PesertaMagangResource\Pages;
+use App\Filament\Resources\PesertaMagangResource\RelationManagers;
+use App\Models\PesertaMagang;
 use Filament\Forms;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,19 +13,17 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BidangResource extends Resource
+class PesertaMagangResource extends Resource
 {
-    protected static ?string $model = Bidang::class;
+    protected static ?string $model = PesertaMagang::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-battery-50';
-    
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_bidang')->unique(),
-                TextInput::make('deskripsi'),
+                //
             ]);
     }
 
@@ -34,8 +31,6 @@ class BidangResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama_bidang'),
-                Tables\Columns\TextColumn::make('deskripsi'),
                 //
             ])
             ->filters([
@@ -43,7 +38,6 @@ class BidangResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -62,9 +56,9 @@ class BidangResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBidangs::route('/'),
-            'create' => Pages\CreateBidang::route('/create'),
-            'edit' => Pages\EditBidang::route('/{record}/edit'),
+            'index' => Pages\ListPesertaMagangs::route('/'),
+            'create' => Pages\CreatePesertaMagang::route('/create'),
+            'edit' => Pages\EditPesertaMagang::route('/{record}/edit'),
         ];
     }
 }
