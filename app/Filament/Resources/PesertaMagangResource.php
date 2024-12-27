@@ -88,10 +88,6 @@ public static function table(Table $table): Table
 {
     return $table
         ->columns([
-            Tables\Columns\TextColumn::make('id_peserta')
-                ->label('ID Peserta')
-                ->sortable(),
-
             Tables\Columns\TextColumn::make('instansi.nama_instansi')
                 ->label('Instansi')
                 ->sortable(),

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id_bidang');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->enum('keterangan', ['aktif', 'tidak aktif']);
+            $table->enum('keterangan', ['aktif', 'tidak aktif'])->default('aktif');
             $table->timestamps();
             $table->foreign('id_peserta')->references('id_peserta')->on('peserta_magang')->onDelete('cascade');
             $table->foreign('id_bidang')->references('id_bidang')->on('bidang')->onDelete('cascade');
