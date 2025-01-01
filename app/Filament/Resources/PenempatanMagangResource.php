@@ -23,6 +23,8 @@ class PenempatanMagangResource extends Resource
 
     protected static ?string $pluralLabel = 'Penempatan Magang';
 
+    protected static ?int $navigationSort = 2; 
+
     public static function form(Form $form): Form
     {
         return $form

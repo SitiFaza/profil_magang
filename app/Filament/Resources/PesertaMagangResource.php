@@ -24,6 +24,8 @@ class PesertaMagangResource extends Resource
 
     protected static ?string $pluralLabel = 'Peserta Magang';
 
+    protected static ?int $navigationSort = 1; 
+
     public static function form(Form $form): Form
 {
     return $form
@@ -56,10 +58,7 @@ class PesertaMagangResource extends Resource
                 ->nullable()
                 ->label('Alamat'),
 
-            Forms\Components\TextInput::make('asal_instansi')
-                ->required()
-                ->maxLength(255)
-                ->label('Asal Instansi'),
+
 
             Forms\Components\TextInput::make('jurusan')
                 ->required()
@@ -104,9 +103,7 @@ public static function table(Table $table): Table
             Tables\Columns\TextColumn::make('jenis_kelamin')
                 ->label('Jenis Kelamin'),
 
-            Tables\Columns\TextColumn::make('asal_instansi')
-                ->label('Asal Instansi')
-                ->searchable(),
+
 
             Tables\Columns\TextColumn::make('jurusan')
                 ->label('Jurusan')
