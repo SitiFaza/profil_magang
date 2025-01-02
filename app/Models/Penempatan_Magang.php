@@ -21,7 +21,7 @@ class Penempatan_Magang extends Model
         'id_bidang',
         'tanggal_mulai',
         'tanggal_selesai',
-        'status',
+        'keterangan',
         '',
     ];
 

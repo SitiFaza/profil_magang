@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BidangResource extends Resource
 {
     protected static ?string $model = Bidang::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = 'Bidang';
     protected static ?string $pluralLabel = 'Bidang ';
@@ -27,7 +26,7 @@ class BidangResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nama_bidang'),
+                TextInput::make('nama_bidang')->unique(),
                 TextInput::make('deskripsi'),
             ]);
     }
@@ -45,6 +44,7 @@ class BidangResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
