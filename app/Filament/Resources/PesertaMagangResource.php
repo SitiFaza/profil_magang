@@ -43,7 +43,7 @@ class PesertaMagangResource extends Resource
                 ->maxLength(50)
                 ->label('Nomor Induk'),
 
-            Forms\Components\Radio::make('jenis_kelamin')
+            Forms\Components\Select::make('jenis_kelamin')
                 ->options([
                     'laki laki' => 'Laki-Laki',
                     'perempuan' => 'Perempuan',
