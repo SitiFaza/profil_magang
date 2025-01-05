@@ -47,27 +47,35 @@ class PenempatanMagangResource extends Resource
     }
 
     public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('peserta.nama')->label('Peserta'),
-                Tables\Columns\TextColumn::make('bidang.nama_bidang')->label('Bidang'),
-                Tables\Columns\TextColumn::make('tanggal_mulai')->label('Tanggal Mulai'),
-                Tables\Columns\TextColumn::make('tanggal_selesai')->label('Tanggal Selesai'),
-                Tables\Columns\TextColumn::make('keterangan')->label('Keterangan'),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+{
+    return $table
+        ->columns([
+            Tables\Columns\TextColumn::make('peserta.nama')->label('Peserta'),
+            Tables\Columns\TextColumn::make('bidang.nama_bidang')->label('Bidang'),
+            Tables\Columns\TextColumn::make('tanggal_mulai')->label('Tanggal Mulai'),
+            Tables\Columns\TextColumn::make('tanggal_selesai')->label('Tanggal Selesai'),
+            Tables\Columns\TextColumn::make('keterangan')
+                ->label('Keterangan')
+                ->formatStateUsing(function ($record) {
+                    // Cek apakah tanggal selesai sudah lewat hari ini
+                    return now()->isAfter($record->tanggal_selesai) 
+                        ? 'Tidak Aktif' 
+                        : 'Aktif';
+                }),
+        ])
+        ->filters([
+            //
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
+}
+
 
     public static function getRelations(): array
     {
