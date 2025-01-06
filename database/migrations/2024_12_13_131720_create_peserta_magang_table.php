@@ -20,7 +20,6 @@ class CreatePesertaMagangTable extends Migration
             $table->string('nomor_induk', 50)->unique();
             $table->enum('jenis_kelamin', ['laki laki', 'perempuan']);
             $table->text('alamat')->nullable();
-            $table->string('asal_instansi', 255);
             $table->string('jurusan', 255);
             $table->enum('status', ['mahasiswa', 'siswa']);
             $table->string('berkas', 255)->nullable(); // Berkas untuk upload file

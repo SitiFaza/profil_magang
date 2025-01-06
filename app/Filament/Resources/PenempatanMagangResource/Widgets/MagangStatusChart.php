@@ -9,6 +9,35 @@ class MagangStatusChart extends ChartWidget
 {
     protected static ?string $heading = 'Status Peserta Magang';
 
+    protected static ?string $maxHeight = '300px';
+    
+
+    protected function getOptions(): array
+    {
+        return [
+            'chartArea' => [
+                'backgroundColor' => 'transparent',
+            ],
+            'scales' => [
+                'x' => [
+                    'grid' => [
+                        'display' => false,
+                        'drawBorder' => false,
+                        'color' => 'rgba(255, 255, 255, 0)',
+                    ],
+                    'display' => false,
+                ],
+                'y' => [
+                    'grid' => [
+                        'display' => false,
+                        'drawBorder' => false,
+                        'color' => 'rgba(255, 255, 255, 0)',
+                    ],
+                    'display' => false,
+                ],
+            ],
+        ];
+    }
     protected function getData(): array
 {
     $activeCount = Penempatan_Magang::where('tanggal_selesai', '>=', now())->count();

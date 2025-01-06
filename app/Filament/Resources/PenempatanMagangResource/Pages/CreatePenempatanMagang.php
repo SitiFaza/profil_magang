@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePenempatanMagang extends CreateRecord
 {
     protected static string $resource = PenempatanMagangResource::class;
+
+    protected function getRedirectUrl(): string 
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

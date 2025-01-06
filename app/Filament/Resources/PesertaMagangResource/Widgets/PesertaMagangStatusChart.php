@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources\PesertaMagangResource\Widgets;
 
 use App\Models\Peserta_Magang;
@@ -9,52 +8,73 @@ class PesertaMagangStatusChart extends ChartWidget
 {
     protected static ?string $heading = 'Status Peserta Magang';
 
-    protected function getData(): array
-{
-    $activeCount = Peserta_Magang::where('status', '>=', now())->count();
-    $inactiveCount = Peserta_Magang::where('status', '<', now())->count();
+    protected static ?string $maxHeight = '300px';
 
-    return [
-        'labels' => ['Mahasiswa', 'Siswa'], 
-        'datasets' => [
-            [
-                'data' => [$activeCount, $inactiveCount], 
-                'backgroundColor' => ['#4CAF50', '#F44336'], 
-                'hoverBackgroundColor' => ['#45d167', '#f55d4e'], 
+    // protected static ?string $maxWidth = '400px';
+
+    protected function getOptions(): array
+    {
+        return [
+            'chartArea' => [
+                'backgroundColor' => 'transparent',
             ],
-        ],
-        'options' => [
-            'plugins' => [
-                'legend' => [
-                    'display' => true,
-                    'position' => 'bottom',
-                ],
-            ],
-            'layout' => [
-                'padding' => 20,
-            ],
-            'responsive' => true,
-            'maintainAspectRatio' => false,
             'scales' => [
-                'r' => [
+                'x' => [
                     'grid' => [
-                        'display' => false, // Hilangkan semua garis grid
+                        'display' => false,
+                        'drawBorder' => false,
+                        'color' => 'rgba(255, 255, 255, 0)',
                     ],
-                    'angleLines' => [
-                        'display' => false, // Hilangkan garis sudut
+                    'display' => false,
+                ],
+                'y' => [
+                    'grid' => [
+                        'display' => false,
+                        'drawBorder' => false,
+                        'color' => 'rgba(255, 255, 255, 0)',
                     ],
-                    'ticks' => [
-                        'display' => false, // Hilangkan angka koordinat
-                        'backdropColor' => 'rgba(0, 0, 0, 0)', // Hilangkan latar belakang angka
+                    'display' => false,
+                ],
+            ],
+        ];
+    }
+
+    protected function getData(): array
+    {
+        $activeCount = Peserta_Magang::where('status', 'mahasiswa', now())->count();
+        $inactiveCount = Peserta_Magang::where('status', 'siswa', now())->count();
+
+        return [
+            'labels' => ['Mahasiswa', 'Siswa'],
+            'datasets' => [
+                [
+                    'data' => [$activeCount, $inactiveCount],
+                    'backgroundColor' => ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+                    'hoverOffset' => 4,
+                    'fill' => true,
+                ],
+            ],
+            'options' => [
+                'responsive' => true,
+                'maintainAspectRatio' => false,
+                'cutout' => '70%',
+                'plugins' => [
+                    'legend' => [
+                        'display' => true,
+                        'position' => 'bottom',
+                        'labels' => [
+                            'color' => '#2c3e50',
+                        ],
                     ],
                 ],
             ],
-        ],
-    ];
-}
+        ];
+    }
+
 
     protected function getType(): string
     {
-        return 'doughnut'; 
+        return 'pie';
     }
+    
 }

@@ -22,9 +22,9 @@ class Peserta_Magang extends Model
         'alamat',
         'no_hp',
         'email',
-        'asal_instansi',
         'jurusan',
         'berkas',
+        'status',
     ];
 
     public function getBerkasUrlAttribute()
@@ -43,5 +43,11 @@ class Peserta_Magang extends Model
     {
         return $this->belongsTo(Instansi::class, 'id_instansi');
     }
+
+    public function penempatan_magang()
+    {
+        return $this->hasOne(Penempatan_Magang::class, 'id_peserta', 'id_peserta');
+    }
+
 }
 

@@ -33,4 +33,32 @@ class PesertaMagangController extends Controller
         ]);
         return redirect()->route('pesertamagang.show', $id)->with('success', 'Berkas berhasil diupload.');
     }
+
+    // Controller: PesertaMagangController.php
+    public function lihatPesertaMagang(Request $request)
+    {
+        // Filter data berdasarkan tahun dan pencarian nama
+        $tahun = $request->input('tahun');
+        $nama = $request->input('nama');
+
+        // Query utama dengan eager loading relasi
+        $query = Peserta_Magang::with(['penempatan_magang', 'instansi']);
+
+        // Filter berdasarkan tahun dari tanggal_mulai di penempatan_magang
+        if ($tahun && $tahun !== 'all') {
+            $query->whereHas('penempatan_magang', function ($q) use ($tahun) {
+                $q->whereYear('tanggal_mulai', $tahun);
+            });
+        }
+
+        if ($nama) {
+            $query->where('nama', 'LIKE', '%' . $nama . '%');
+        }
+
+        // Ambil data sesuai filter
+        $pesertaMagang = $query->get();
+
+        return view('Lihat', compact('pesertaMagang'));
+    }
+    
 }
