@@ -10,6 +10,11 @@ class ListBidangs extends ListRecords
 {
     protected static string $resource = BidangResource::class;
 
+    protected function getRedirectUrl(): string 
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [
