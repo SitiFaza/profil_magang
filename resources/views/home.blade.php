@@ -96,12 +96,13 @@
             </div>
         </div>
     </nav>
-
-    <div class="hero-section">
-        <div class="text-center">
-            <button onclick="location.href='/adminPerkim'" class="btn btn-primary btn-lg">Login sebagai Admin</button>
-            <br>
-            <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg">Lihat Peserta Magang</button>
+    <div class="container mt-4 center">
+        <div class="hero-section">
+            <div class="text">
+                <button onclick="location.href='/adminPerkim'" class="btn btn-primary btn-lg">Login sebagai Admin</button>
+                <br>
+                <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg">Lihat Peserta Magang</button>
+            </div>
         </div>
     </div>
     

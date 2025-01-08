@@ -82,17 +82,17 @@
         <div class="footer-content">
             <div class="footer-copyright">
                 
-    Copyright &copy; 2024 Sistem Informasi Magang.
+    Copyright &copy; 2024 Disperkim Kalbar Informasi Magang.
             </div>
             <div class="footer-icons">
                 <a href="https://perkim.kalbarprov.go.id/" target="_blank" aria-label="Website">
                     <i class="fas fa-globe"></i>
                 </a>
-                <a href="https://www.instagram.com/diskominfokuburaya" target="_blank" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
                 <a href="mailto:disperkim@kalbarprov.go.id" aria-label="Email">
                     <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://www.instagram.com/disperkim.kalbar" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://maps.app.goo.gl/4BERFB9DskoFiFBX9" target="_blank" aria-label="Location">
                     <i class="fas fa-map-marker-alt"></i>

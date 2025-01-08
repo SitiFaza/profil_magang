@@ -36,29 +36,46 @@ class PesertaMagangController extends Controller
 
     // Controller: PesertaMagangController.php
     public function lihatPesertaMagang(Request $request)
-    {
-        // Filter data berdasarkan tahun dan pencarian nama
-        $tahun = $request->input('tahun');
-        $nama = $request->input('nama');
+{
+    $query = Peserta_Magang::with(['penempatan_magang', 'instansi']);
 
-        // Query utama dengan eager loading relasi
-        $query = Peserta_Magang::with(['penempatan_magang', 'instansi']);
+    $tahun = $request->input('tahun');
+    $cari = $request->input('cari'); // Parameter pencarian tunggal untuk semua kolom
 
-        // Filter berdasarkan tahun dari tanggal_mulai di penempatan_magang
-        if ($tahun && $tahun !== 'all') {
-            $query->whereHas('penempatan_magang', function ($q) use ($tahun) {
-                $q->whereYear('tanggal_mulai', $tahun);
-            });
-        }
-
-        if ($nama) {
-            $query->where('nama', 'LIKE', '%' . $nama . '%');
-        }
-
-        // Ambil data sesuai filter
-        $pesertaMagang = $query->get();
-
-        return view('Lihat', compact('pesertaMagang'));
+    // Filter tahun
+    if ($tahun && $tahun !== 'all') {
+        $query->whereHas('penempatan_magang', function ($q) use ($tahun) {
+            $q->whereYear('tanggal_mulai', $tahun);
+        });
     }
-    
+
+    // Filter berdasarkan pencarian
+    if ($cari) {
+        $query->where(function ($q) use ($cari) {
+            $q->where('nama', 'LIKE', '%' . $cari . '%')
+              ->orWhere('nomor_induk', 'LIKE', '%' . $cari . '%')
+              ->orWhere('jurusan', 'LIKE', '%' . $cari . '%')
+              ->orWhereHas('instansi', function ($q) use ($cari) {
+                  $q->where('nama_instansi', 'LIKE', '%' . $cari . '%');
+              });
+        });
+    }
+
+    $pesertaMagang = $query->get();
+
+    // Ambil tahun unik dari penempatan magang
+    $uniqueYears = $pesertaMagang
+        ->filter(fn($peserta) => $peserta->penempatan_magang)
+        ->flatMap(fn($peserta) => [
+            optional($peserta->penempatan_magang)->tanggal_mulai 
+                ? \Carbon\Carbon::parse($peserta->penempatan_magang->tanggal_mulai)->year 
+                : null,
+        ])
+        ->unique()
+        ->sort()
+        ->values();
+
+    return view('Lihat', compact('pesertaMagang', 'uniqueYears'));
+}
+
 }
