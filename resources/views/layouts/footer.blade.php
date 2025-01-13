@@ -82,7 +82,7 @@
         <div class="footer-content">
             <div class="footer-copyright">
                 
-    Copyright &copy; 2024 Disperkim Kalbar Informasi Magang.
+    Copyright &copy; 2024 Disperkim Kalbar Rekap Peserta Magang.
             </div>
             <div class="footer-icons">
                 <a href="https://perkim.kalbarprov.go.id/" target="_blank" aria-label="Website">

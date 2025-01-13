@@ -20,20 +20,27 @@ class PesertaMagangResource extends Resource
 
     protected static ?string $pluralLabel = 'Peserta Magang';
 
-    protected static ?int $navigationSort = 1; 
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                // Berkas bersama yang akan digunakan untuk semua peserta
                 Forms\Components\FileUpload::make('berkas_bersama')
                     ->label('Berkas Bersama')
                     ->disk('public')
                     ->directory('berkas')
-                    ->required(),
+                    ->visibility('public')
+                    ->downloadable()
+                    ->acceptedFileTypes(['application/pdf', 'image/*'])
+                    ->maxSize(5120)
+                    ->imagePreviewHeight('250')
+                    ->loadingIndicatorPosition('left')
+                    ->panelAspectRatio('2:1')
+                    ->panelLayout('integrated')
+                    ->removeUploadedFileButtonPosition('right')
+                    ->uploadProgressIndicatorPosition('left'),
                 
-                // Repeater untuk multiple peserta
                 Forms\Components\Repeater::make('peserta')
                     ->label('Data Peserta Magang')
                     ->schema([
@@ -49,7 +56,7 @@ class PesertaMagangResource extends Resource
 
                         Forms\Components\TextInput::make('nomor_induk')
                             ->required()
-                            ->unique('peserta_magang', 'nomor_induk')
+                            ->unique(ignoreRecord: true)
                             ->maxLength(50)
                             ->label('Nomor Induk'),
 
@@ -78,12 +85,12 @@ class PesertaMagangResource extends Resource
                             ->required()
                             ->label('Status'),
                     ])
-                    ->columns(2) // Tampilkan dalam 2 kolom
-                    ->defaultItems(1) // Mulai dengan 1 item
-                    ->addActionLabel('Tambah Peserta') // Label tombol tambah
-                    ->collapsible() // Bisa di-collapse
-                    ->reorderableWithButtons() // Bisa diurutkan
-                    ->cloneable() // Bisa di-clone
+                    ->columns(2)
+                    ->defaultItems(1)
+                    ->addActionLabel('Tambah Peserta')
+                    ->collapsible()
+                    ->reorderableWithButtons()
+                    ->cloneable()
             ]);
     }
 
@@ -114,10 +121,16 @@ class PesertaMagangResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status'),
 
-                Tables\Columns\ImageColumn::make('berkas_Url')
+                Tables\Columns\TextColumn::make('berkas')
                     ->label('Berkas')
-                    ->circular()
-                    ->size(50),
+                    ->state(function (Peserta_Magang $record): string {
+                        return $record->berkas ? 'Lihat Berkas' : 'Tidak ada berkas';
+                    })
+                    ->url(function (Peserta_Magang $record): ?string {
+                        return $record->berkas ? $record->berkasUrl : null;
+                    })
+                    ->openUrlInNewTab()
+                    ->color(fn (Peserta_Magang $record): string => $record->berkas ? 'primary' : 'danger'),
             ])
             ->filters([
                 //

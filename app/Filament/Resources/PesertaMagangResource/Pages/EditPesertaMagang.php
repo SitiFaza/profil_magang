@@ -3,26 +3,16 @@
 namespace App\Filament\Resources\PesertaMagangResource\Pages;
 
 use App\Filament\Resources\PesertaMagangResource;
+use App\Models\Peserta_Magang;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use App\Models\Peserta_Magang;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class EditPesertaMagang extends EditRecord
 {
     protected static string $resource = PesertaMagangResource::class;
 
-    /**
-     * Redirect URL setelah berhasil melakukan update.
-     */
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
-
-    /**
-     * Header actions untuk halaman edit.
-     */
     protected function getHeaderActions(): array
     {
         return [
@@ -30,65 +20,53 @@ class EditPesertaMagang extends EditRecord
         ];
     }
 
-    /**
-     * Mutasi data form sebelum diisi (untuk menampilkan data di form edit).
-     */
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        // Ambil data peserta yang terkait berdasarkan ID record
-        $peserta = Peserta_Magang::where('berkas', $this->record->berkas)->get();
+        // Transform single record data into the format expected by the Repeater
+        $data['peserta'] = [[
+            'id_instansi' => $this->record->id_instansi,
+            'nama' => $this->record->nama,
+            'nomor_induk' => $this->record->nomor_induk,
+            'jenis_kelamin' => $this->record->jenis_kelamin,
+            'alamat' => $this->record->alamat,
+            'jurusan' => $this->record->jurusan,
+            'status' => $this->record->status,
+        ]];
 
-        // Transformasikan data peserta menjadi format yang dapat digunakan oleh Repeater
-        $data['peserta'] = $peserta->map(function ($item) {
-            return [
-                'id_instansi' => $item->id_instansi,
-                'nama' => $item->nama,
-                'nomor_induk' => $item->nomor_induk,
-                'jenis_kelamin' => $item->jenis_kelamin,
-                'alamat' => $item->alamat,
-                'jurusan' => $item->jurusan,
-                'status' => $item->status,
-            ];
-        })->toArray();
-
-        // Tambahkan data berkas lama ke form
+        // Set existing file path
         $data['berkas_bersama'] = $this->record->berkas;
 
         return $data;
     }
 
-    /**
-     * Handle update data record.
-     */
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        // Ambil berkas bersama dari data input
-        $berkasBersama = $data['berkas_bersama'];
+        // Get berkas_bersama from input or keep existing one
+        $berkasBersama = $data['berkas_bersama'] ?? $record->berkas;
 
-        // Jika pengguna tidak mengunggah berkas baru, gunakan berkas lama
-        if (!$berkasBersama) {
-            $berkasBersama = $record->berkas;
+        // Only handle file deletion if a new file is uploaded
+        if (isset($data['berkas_bersama']) && $data['berkas_bersama'] !== $record->berkas) {
+            // Delete old file if exists and different from new one
+            if ($record->berkas && Storage::disk('public')->exists($record->berkas)) {
+                Storage::disk('public')->delete($record->berkas);
+            }
         }
 
-        // Hapus semua data peserta lama yang terkait dengan berkas ini
-        Peserta_Magang::where('berkas', $record->berkas)->delete();
-
-        // Loop data peserta baru dari input dan simpan ke database
-        foreach ($data['peserta'] as $pesertaData) {
-            $peserta = new Peserta_Magang();
-            $peserta->fill([
-                ...$pesertaData,
-                'berkas' => $berkasBersama, // Gunakan berkas bersama
-            ]);
-            $peserta->save();
-        }
-
-        // Update data utama (record saat ini)
+        // Update peserta data
+        $pesertaData = $data['peserta'][0] ?? [];
+        
         $record->fill([
-            'berkas' => $berkasBersama, // Update berkas jika diperlukan
+            ...$pesertaData,
+            'berkas' => $berkasBersama,
         ]);
+        
         $record->save();
 
-        return $record; // Kembalikan instance model yang diperbarui
+        return $record;
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

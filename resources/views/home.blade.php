@@ -54,14 +54,27 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.5); /* 50% transparan dengan warna biru */
+            border-color: rgba(0, 123, 255, 0.5); /* 50% transparan dengan warna biru */
+            color: white; /* Pastikan teks tetap terlihat */
         }
 
         .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
+            background-color: rgba(108, 117, 125, 0.5); /* 50% transparan dengan warna abu-abu */
+            border-color: rgba(108, 117, 125, 0.5); /* 50% transparan dengan warna abu-abu */
+            color: white; /* Pastikan teks tetap terlihat */
         }
+
+        .btn-primary:hover {
+            background-color: rgba(0, 123, 255, 0.8); /* Darken the button on hover */
+            border-color: rgba(0, 123, 255, 0.8); /* Darken the border on hover */
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.8); /* Darken the button on hover */
+            border-color: rgba(108, 117, 125, 0.8); /* Darken the border on hover */
+        }
+
 
         @media (max-width: 768px) {
             .hero-section {
@@ -76,10 +89,11 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
+
         }
     </style>
 </head>
-<body>
+<body style="background-image: url('{{ asset('images/IMG20250113080613.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <nav class="navbar navbar-expand-lg">
         <div class="container d-flex align-items-center">
             <img src="{{ asset('storage/kalbar-logo.png') }}" alt="logo">
