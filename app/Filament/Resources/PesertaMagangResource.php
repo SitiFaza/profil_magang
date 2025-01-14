@@ -87,8 +87,7 @@ class PesertaMagangResource extends Resource
 
                         Forms\Components\TextInput::make('cp')
                         ->required()
-                        ->label('CP')
-                        ->integer()
+                        ->label('CP'),
                     ])
                     ->columns(2)
                     ->defaultItems(1)
