@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Bidang;
 use App\Models\Instansi;
+use App\Models\Peserta_Magang;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -20,7 +21,7 @@ class DashboardStats extends BaseWidget
                 ->description('Jumlah instansi yang terdaftar')
                 ->color('danger'), // Merah untuk instansi
 
-            Stat::make('Total Peserta Magang', Instansi::count())
+            Stat::make('Total Peserta Magang', Peserta_Magang::count())
                 ->description('Jumlah peserta magang yang terdaftar')
                 ->color('danger'), // Merah untuk instansi
         ];

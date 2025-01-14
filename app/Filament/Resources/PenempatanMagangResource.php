@@ -34,7 +34,7 @@ class PenempatanMagangResource extends Resource
                 ->required()
                 ->label('bidang'),
                 Forms\Components\Select::make('id_peserta')
-                ->relationship('peserta', 'nomor_induk')
+                ->relationship('peserta', 'nama')
                 ->required()
                 ->label('peserta'),
                 Forms\Components\DatePicker::make('tanggal_mulai') // Elemen kalender untuk tanggal_mulai

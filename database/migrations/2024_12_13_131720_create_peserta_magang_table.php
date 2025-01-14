@@ -23,6 +23,7 @@ class CreatePesertaMagangTable extends Migration
             $table->string('jurusan', 255);
             $table->enum('status', ['mahasiswa', 'siswa']);
             $table->string('berkas', 255)->nullable(); // Berkas untuk upload file
+            $table->string('cp')->nullable();
             $table->timestamps();
             $table->foreign('id_instansi')->references('id_instansi')->on('instansi')->onDelete('cascade');
         });

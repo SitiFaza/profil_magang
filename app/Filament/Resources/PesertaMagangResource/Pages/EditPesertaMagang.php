@@ -31,6 +31,7 @@ class EditPesertaMagang extends EditRecord
             'alamat' => $this->record->alamat,
             'jurusan' => $this->record->jurusan,
             'status' => $this->record->status,
+            'cp' => $this->record->cp,
         ]];
 
         // Set existing file path

@@ -25,6 +25,7 @@ class Peserta_Magang extends Model
         'jurusan',
         'berkas',
         'status',
+        'cp',
     ];
 
     public function getBerkasUrlAttribute()

@@ -84,6 +84,11 @@ class PesertaMagangResource extends Resource
                             ])
                             ->required()
                             ->label('Status'),
+
+                        Forms\Components\TextInput::make('cp')
+                        ->required()
+                        ->label('CP')
+                        ->integer()
                     ])
                     ->columns(2)
                     ->defaultItems(1)
