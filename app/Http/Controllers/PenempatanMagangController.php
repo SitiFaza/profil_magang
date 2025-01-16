@@ -11,10 +11,38 @@ use App\Models\penempatan_magang;
 class PenempatanMagangController extends Controller
 {
     // Menampilkan daftar penempatan magang
-    public function index()
+    public function index(Request $request)
     {
-        $penempatanMagang = penempatan_magang::with(['peserta', 'bidang'])->get();
-        return view('penempatan.index', compact('penempatanMagang'));
+        // Tahun yang tersedia
+        $availableYears = Penempatan_Magang::selectRaw('YEAR(tanggal_mulai) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+        // Tahun yang dipilih (default: tahun sekarang)
+        $selectedYear = $request->input('year', date('Y'));
+
+        // Statistik per bulan
+        $magangPerBulan = Penempatan_Magang::selectRaw('MONTH(tanggal_mulai) as month, COUNT(*) as total')
+            ->whereYear('tanggal_mulai', $selectedYear)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [(int)$item->month => $item->total];
+            });
+
+        $monthlyData = collect(range(1, 12))->map(function ($month) use ($magangPerBulan) {
+            return $magangPerBulan[$month] ?? 0;
+        });
+
+        $chartData = [
+            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+            'data' => $monthlyData,
+            'label' => "Jumlah Penempatan Magang Tahun $selectedYear",
+        ];
+
+        return view('penempatan.index', compact('chartData', 'availableYears', 'selectedYear'));
     }
 
     // Menampilkan form untuk menambahkan penempatan magang
