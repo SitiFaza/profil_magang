@@ -21,12 +21,15 @@
         .navbar-brand {
             font-weight: bold;
             font-size: 1.2rem;
+            margin-left: 70px; 
+            padding-left: 0;
         }
 
         .navbar-brand img {
             height: 50px;
-            margin-right: 15px;
+            margin-right: 100px;
         }
+
 
         .nav-link {
             font-weight: 500;
@@ -48,7 +51,7 @@
 
         .hero-section .btn {
             width: 200px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 1.2rem;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
@@ -101,10 +104,11 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container d-flex align-items-center">
             <img src="{{ asset('storage/kalbar-logo.png') }}" alt="logo">
-            <a class="navbar-brand text-white" >PESERTA MAGANG DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN PROVINSI KALIMANTAN BARAT</a>
+            <a class="navbar-brand text-white" style="margin-left: 15px; position: absolute; padding-left: 25px;">PESERTA MAGANG DISPERKIM KALBAR</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg" style="margin-right: 0px;">Lihat Peserta Magang</button>
         </div>
     </nav>
     <div class="container mt-4 center">
@@ -112,7 +116,6 @@
             <div class="text">
                 {{-- <button onclick="location.href='/adminPerkim'" class="btn btn-primary btn-lg">Login sebagai Admin</button>
                 <br> --}}
-                <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg">Lihat Peserta Magang</button>
             </div>
         </div>
     </div>
