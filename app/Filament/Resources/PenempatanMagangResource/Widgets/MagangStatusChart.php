@@ -48,7 +48,8 @@ class MagangStatusChart extends ChartWidget
         'datasets' => [
             [
                 'data' => [$activeCount, $inactiveCount], 
-                'backgroundColor' => ['rgb(229, 226, 31)', 'rgb(6, 243, 255)'],
+                'backgroundColor' => ['rgb(229, 226, 31, 0.6)', 'rgb(6, 243, 255, 0.6)'],
+                'borderColor' => ['rgb(229, 226, 31)', 'rgb(6, 243, 255)'],
                     'hoverOffset' => 4,
                     'fill' => true,
             ],

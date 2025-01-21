@@ -49,7 +49,8 @@ class PesertaMagangStatusChart extends ChartWidget
             'datasets' => [
                 [
                     'data' => [$activeCount, $inactiveCount],
-                    'backgroundColor' => ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+                    'backgroundColor' => ['rgb(54, 162, 235, 0.6)', 'rgb(255, 99, 132, 0.6)'],
+                    'borderColor' => ['rgb(54, 162, 235, 1)', 'rgb(255, 99, 132, 1)'],
                     'hoverOffset' => 4,
                     'fill' => true,
                 ],
