@@ -4,24 +4,12 @@ namespace App\Filament\Resources\PenempatanMagangResource\Widgets;
 
 use App\Models\Penempatan_Magang;
 use Filament\Widgets\ChartWidget;
+use Carbon\Carbon;
 
 class PenempatanMagangMonthlyChart extends ChartWidget
 {
     protected static ?string $heading = 'Jumlah Penempatan Magang per Bulan';
     
-    public int | string | array | null $filterFormData = null;
-
-    // Aktifkan polling untuk memastikan chart selalu up-to-date
-    protected static ?string $pollingInterval = null;
-    
-    // Aktifkan fitur filter
-    protected static bool $shouldHandleFilterFormDataUpdates = true;
-
-    public function mount(): void
-    {
-        $this->filterFormData = now()->year;
-    }
-
     protected function getFilters(): ?array
     {
         $years = Penempatan_Magang::selectRaw('YEAR(tanggal_mulai) as year')
@@ -33,18 +21,12 @@ class PenempatanMagangMonthlyChart extends ChartWidget
         return array_combine($years, $years);
     }
 
-    // Method ini akan dipanggil setiap kali filter berubah
-    protected function filterFormUpdated(): void
-    {
-        $this->updateChartData();
-    }
-
     protected function getData(): array
     {
-        $selectedYear = $this->filterFormData;
+        $year = $this->filter ?? now()->year;
 
         $data = Penempatan_Magang::selectRaw('MONTH(tanggal_mulai) as month, COUNT(*) as total')
-            ->whereYear('tanggal_mulai', $selectedYear)
+            ->whereYear('tanggal_mulai', $year)
             ->groupBy('month')
             ->orderBy('month')
             ->get();
@@ -58,7 +40,7 @@ class PenempatanMagangMonthlyChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => "Data Tahun $selectedYear",
+                    'label' => "Data Tahun $year",
                     'data' => $totals,
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderColor' => 'rgba(75, 192, 192, 1)',
