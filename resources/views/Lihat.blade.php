@@ -31,9 +31,135 @@
         .table-container {
             margin-top: 30px;
         }
+
+        .navbar {
+            background-color: orange;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-left: 70px; 
+            padding-left: 0;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 100px;
+        }
+
+
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #ffcc00 !important;
+        }
+
+        .hero-section {
+            height: 80vh;
+            background: url('{{ asset("storage/background-image.jpg") }}') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-section .btn {
+            width: 200px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .hero-section .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background-color: rgba(0, 123, 255, 0.5); /* 50% transparan dengan warna biru */
+            border-color: rgba(0, 123, 255, 0.5); /* 50% transparan dengan warna biru */
+            color: white; /* Pastikan teks tetap terlihat */
+        }
+
+        .btn-secondary {
+            background-color: rgba(108, 117, 125, 0.5); /* 50% transparan dengan warna abu-abu */
+            border-color: rgba(108, 117, 125, 0.5); /* 50% transparan dengan warna abu-abu */
+            color: white; /* Pastikan teks tetap terlihat */
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(0, 123, 255, 0.8); /* Darken the button on hover */
+            border-color: rgba(0, 123, 255, 0.8); /* Darken the border on hover */
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.8); /* Darken the button on hover */
+            border-color: rgba(108, 117, 125, 0.8); /* Darken the border on hover */
+        }
+
+        body {
+    position: relative;
+    background-image: url('{{ asset('images/IMG20250113080613.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{{ asset('images/IMG20250113080613.jpg') }}') no-repeat center center;
+    background-size: cover;
+    filter: blur(8px);  /* Sesuaikan tingkat blur di sini */
+    z-index: -1;  /* Agar gambar blur berada di belakang konten */
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;  /* Agar konten berada di atas gambar blur */
+}
+
+
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 100vh;
+            }
+
+            .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .hero-section .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+        }
     </style>
 </head>
-<body>
+<body style="background-image: url('{{ asset('images/IMG20250113080613.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"></body>
+<nav class="navbar navbar-expand-lg">
+        <div class="container d-flex align-items-center">
+            <img src="{{ asset('storage/kalbar-logo.png') }}" alt="logo">
+            <a class="navbar-brand text-white" style="margin-left: 15px; position: absolute; padding-left: 25px;">PESERTA MAGANG DISPERKIM KALBAR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg" style="margin-right: 0px;">Lihat Peserta Magang</button>
+        </div>
+    </nav>
 <div class="page-container">
     <div class="content">
         <div class="container mt-4">
@@ -68,7 +194,7 @@
                             <th>Tanggal Selesai</th>
                         </tr>
                     </thead>
-                    <tbody id="data-tbody">
+                    <tbody id="data-tbody" class="table-dark">
                         @foreach ($pesertaMagang as $peserta)
                             @php
                                 $startYear = optional($peserta->penempatan_magang)->tanggal_mulai 

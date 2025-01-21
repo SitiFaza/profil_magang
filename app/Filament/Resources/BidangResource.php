@@ -27,7 +27,8 @@ class BidangResource extends Resource
         return $form
             ->schema([
                 TextInput::make('nama_bidang')->unique(),
-                TextInput::make('deskripsi'),
+                TextInput::make('deskripsi')
+                ->required(),
             ]);
     }
 

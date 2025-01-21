@@ -30,21 +30,29 @@ class PenempatanMagangResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('id_bidang')
-                ->relationship('bidang', 'nama_bidang')
-                ->required()
-                ->label('bidang'),
-                Forms\Components\Select::make('id_peserta')
-                ->relationship('peserta', 'nama')
-                ->required()
-                ->label('peserta'),
-                Forms\Components\DatePicker::make('tanggal_mulai') // Elemen kalender untuk tanggal_mulai
+                    ->relationship('bidang', 'nama_bidang')
+                    ->required()
+                    ->label('Bidang'),
+                
+                    Forms\Components\Select::make('peserta')
+                        ->label('Peserta (Nomor Induk)')
+                        ->options(function () {
+                            return \App\Models\Peserta_Magang::pluck('nomor_induk', 'id_peserta');
+                        })
+                        ->multiple() // If selecting multiple participants
+                        ->required(),
+
+                Forms\Components\DatePicker::make('tanggal_mulai')
                     ->required()
                     ->label('Tanggal Mulai'),
-                Forms\Components\DatePicker::make('tanggal_selesai') // Elemen kalender untuk tanggal_selesai
+                
+                Forms\Components\DatePicker::make('tanggal_selesai')
                     ->required()
                     ->label('Tanggal Selesai'),
             ]);
     }
+
+
 
     public static function table(Table $table): Table
 {
@@ -93,4 +101,5 @@ class PenempatanMagangResource extends Resource
             'edit' => Pages\EditPenempatanMagang::route('/{record}/edit'),
         ];
     }
+
 }
