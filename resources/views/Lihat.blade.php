@@ -161,7 +161,7 @@ body::before {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <button onclick="location.href='/peserta-magang'" class="btn btn-secondary btn-lg" style="margin-right: 0px;">Lihat Peserta Magang</button>
+            <button onclick="location.href='/'" class="btn btn-secondary btn-lg" style="margin-right: 0px;">Kembali</button>
         </div>
     </nav>
 <div class="page-container">

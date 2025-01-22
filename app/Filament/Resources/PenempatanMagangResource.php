@@ -34,57 +34,60 @@ class PenempatanMagangResource extends Resource
                     ->required()
                     ->label('Bidang'),
                 
-                    Forms\Components\Select::make('peserta')
-                        ->label('Peserta (Nomor Induk)')
-                        ->options(function () {
-                            return \App\Models\Peserta_Magang::pluck('nomor_induk', 'id_peserta');
-                        })
-                        ->multiple() // If selecting multiple participants
-                        ->required(),
+                Forms\Components\Select::make('peserta')
+                    ->label('Peserta (Nomor Induk)')
+                    ->options(function () {
+                        return \App\Models\Peserta_Magang::pluck('nomor_induk', 'id_peserta');
+                    })
+                    ->multiple() // If selecting multiple participants
+                    ->required(),
 
                 Forms\Components\DatePicker::make('tanggal_mulai')
                     ->required()
                     ->label('Tanggal Mulai'),
                 
-                Forms\Components\DatePicker::make('tanggal_selesai')
+                    Forms\Components\DatePicker::make('tanggal_selesai')
                     ->required()
-                    ->label('Tanggal Selesai'),
+                    ->label('Tanggal Selesai')
+                    ->rules(['after:tanggal_mulai']) // Validasi bawaan Laravel
+                    ->reactive() // Aktifkan reaktivitas
+                    ->afterStateUpdated(function ($state, $set, $get) {
+                        if ($state && $state <= $get('tanggal_mulai')) {
+                            $set('tanggal_selesai', null); // Reset tanggal selesai jika salah
+                        }
+                    }),                
             ]);
     }
 
-
-
     public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('peserta.nomor_induk')->label('Nomor Induk  '),
-            Tables\Columns\TextColumn::make('peserta.nama')->label('Peserta'),
-            Tables\Columns\TextColumn::make('bidang.nama_bidang')->label('Bidang'),
-            Tables\Columns\TextColumn::make('tanggal_mulai')->label('Tanggal Mulai'),
-            Tables\Columns\TextColumn::make('tanggal_selesai')->label('Tanggal Selesai'),
-            Tables\Columns\TextColumn::make('keterangan')
-                ->label('Keterangan')
-                ->formatStateUsing(function ($record) {
-                    // Cek apakah tanggal selesai sudah lewat hari ini
-                    return now()->isAfter($record->tanggal_selesai) 
-                        ? 'Tidak Aktif' 
-                        : 'Aktif';
-                }),
-        ])
-        ->filters([
-            //
-        ])
-        ->actions([
-            Tables\Actions\EditAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
-}
-
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('peserta.nomor_induk')->label('Nomor Induk'),
+                Tables\Columns\TextColumn::make('peserta.nama')->label('Peserta'),
+                Tables\Columns\TextColumn::make('bidang.nama_bidang')->label('Bidang'),
+                Tables\Columns\TextColumn::make('tanggal_mulai')->label('Tanggal Mulai'),
+                Tables\Columns\TextColumn::make('tanggal_selesai')->label('Tanggal Selesai'),
+                Tables\Columns\TextColumn::make('keterangan')
+                    ->label('Keterangan')
+                    ->formatStateUsing(function ($record) {
+                        return now()->isAfter($record->tanggal_selesai) 
+                            ? 'Tidak Aktif' 
+                            : 'Aktif';
+                    }),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
 
     public static function getRelations(): array
     {
@@ -101,5 +104,4 @@ class PenempatanMagangResource extends Resource
             'edit' => Pages\EditPenempatanMagang::route('/{record}/edit'),
         ];
     }
-
 }
