@@ -39,4 +39,13 @@ class Penempatan_Magang extends Model
     {
         return $this->belongsTo(Bidang::class, 'id_bidang', 'id_bidang');
     }
+
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            if ($model->tanggal_mulai > $model->tanggal_selesai) {
+                throw new \Exception("Tanggal selesai harus setelah tanggal mulai.");
+            }
+        });
+    }
 }
